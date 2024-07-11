@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('{{ url_for('static', filename='done.jpg') }}');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8); /* Optional: To make the container more readable */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .board {
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 10px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            border: 2px solid #000;
+        }
+        .cell:hover {
+            background: #ddd;
+        }
+        .button {
+            background-color: white;
+            font-style: italic;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: rgb(116, 13, 116);
+            font-size: 15px;
+            font-weight: 1000;
+            border-radius: 10px;
+            border: line;
+            cursor: pointer;
+            outline: none;
+            margin-top: 10px;
+            height:26px;
+        }
+
+        input{
+            background-color: white;
+            font-style: italic;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: rgb(116, 13, 116);
+            font-size: 15px;
+            
+        }
+
+        h1{
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: rgb(116, 13, 116);
+
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if not game_init %}
+        <h1>Enter Player Names</h1>
+        <form action="/start" method="post">
+            <input type="text" name="p1" placeholder="Player 1" required><br><br>
+            <input type="text" name="p2" placeholder="Player 2" required><br><br>
+            <button type="submit" class="button">Let's Play</button>
+        </form>
+        {% else %}
+        <h1>Tic Tac Toe</h1>
+        <p>It's {{ 'Player 1' if player == 1 else 'Player 2' }}'s turn</p>
+        <div class="board">
+            {% for row in range(3) %}
+                {% for col in range(3) %}
+                <form action="/play" method="post" style="display:inline;">
+                    <input type="hidden" name="x" value="{{ row }}">
+                    <input type="hidden" name="y" value="{{ col }}">
+                    <button type="submit" class="cell">{{ board[row][col] }}</button>
+                </form>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% if winner %}
+        <h2>{{ winner }} wins!</h2>
+        <a href="/reset" class="button">Play Again</a>
+        {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
