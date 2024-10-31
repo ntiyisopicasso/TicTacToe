@@ -1,1 +1,4 @@
-echo '' > requirements.txt
+Flask==2.2.2          # The web framework for Python
+Flask-Cors==3.0.10    # To handle Cross-Origin Resource Sharing (CORS)
+Flask-SocketIO==5.3.0 # For real-time communication (optional)
+requests==2.28.1      # For making HTTP requests (optional)
